@@ -3,11 +3,38 @@ import Layout from "../layouts/Layout.astro";
 import Field from "../components/Field.astro";
 ---
 
+<script>
+  const example_product_name = document.querySelector("#example_product_name");
+  const example_product_price = document.querySelector("#example_product_price");
+  const example_product_tag = document.querySelector("#example_product_tag");
+  const example_product_tag = document.querySelector("#example_product_tag");
+  const product_name:HTMLInputElement | null = document.querySelector("#product_name");
+  
+	product_name?.addEventListener("input", (e) => {
+    if (!example_product_name) return;
+    example_product_name.textContent = product_name.value ? product_name.value : 'Nome do produto';
+    console.log(product_name.value);
+  });
+
+  const handleGetFields = () => {
+    const form_generator: HTMLFormElement | null = document.querySelector("#form_generator");
+    let data: FormData;
+
+    if (!form_generator) return;
+
+    data = new FormData(form_generator);
+    console.log(data.get("product_name"));
+  };
+
+  const button_generate = document.querySelector("#product_button");
+  button_generate?.addEventListener("click", handleGetFields);
+</script>
+
 <Layout title="Welcome to Astro.">
   <main class="w-full flex flex-col justify-center items-center p-5">
     <div class="mb-14">
       <h1 class="text-center text-2xl uppercase mb-14 text-woodsmoke-50">Product viewer generator</h1>
-      <form class="flex flex-wrap max-w-lg gap-4">
+      <form class="flex flex-wrap max-w-lg gap-4" id="form_generator">
         <Field name="product_name" label="Nome do produto:" type="text" containerClass="basis-full" />
         <div>
           <Field name="product_price" label="Preço do prodito:" type="number" />
@@ -26,21 +53,25 @@ import Field from "../components/Field.astro";
       <div class="p-8 bg-white w-full max-w-5xl">
         <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
           <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden">
-						<img src="https://placehold.co/200x200/edeef1/b4bac5/webp" alt="">
-					</div>
-					<div class="flex flex-1 flex-col gap-4 items-start justify-center">
-						<div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]">Etiqueta</div>
-						<h3 class="text-2xl">Nome do produto</h3>
-						<div>
-							<img src="https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50" alt="">
-						</div>
-					</div>
-					<div class="flex flex-col items-center">
-						<p class="text-center mb-5 text-2xl">R$ 1000,00</p>
-						<a href="#" class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl">Ir para loja</a>
-					</div>
+            <img src="https://placehold.co/200x200/edeef1/b4bac5/webp" alt="" />
+          </div>
+          <div class="flex flex-1 flex-col gap-4 items-start justify-center">
+            <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">Etiqueta</div>
+            <h3 class="text-2xl" id="example_product_name">Nome do produto</h3>
+            <div>
+              <img src="https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50" alt="" />
+            </div>
+          </div>
+          <div class="flex flex-col items-center">
+            <p class="text-center mb-5 text-2xl" id="example_product_price">R$ 1000,00</p>
+            <a href="#" class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl"
+              >Ir para loja</a
+            >
+          </div>
         </div>
-				<div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">Develope by: LTCODE | Crie seu proprio clique aqui</div>
+        <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
+          Develope by: LTCODE | Crie seu proprio clique aqui
+        </div>
       </div>
     </div>
   </main>
