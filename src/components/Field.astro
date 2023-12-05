@@ -1,0 +1,37 @@
+---
+const { name, label, type, containerClass } = Astro.props;
+---
+
+<div class={`flex flex-col gap-2 flex-1${containerClass ? " " + containerClass : ""}`}>
+  {
+    type === "checkbox" && (
+      <label for={name} class="text-white">
+        {label} <input id={name} name={name} type={type} class="py-2 px-4 rounded-lg" />
+      </label>
+    )
+  }
+  {
+    type !== "submit" && type !== "button" && type !== "checkbox" && (
+      <label for={name} class="text-white">
+        {label}
+      </label>
+    )
+  }
+  {
+    type !== "submit" && type !== "button" && type !== "checkbox" && (
+      <input id={name} name={name} type={type} class="py-2 px-4 rounded-lg" />
+    )
+  }
+  {
+    (type === "submit" || type === "button") && (
+      <buttom
+        id={name}
+        name={name}
+        type={type}
+        class="py-2 px-8 text-center rounded-lg bg-amber-300 hover:bg-amber-400 active:bg-amber-500 cursor-pointer"
+      >
+        {label}
+      </buttom>
+    )
+  }
+</div>
