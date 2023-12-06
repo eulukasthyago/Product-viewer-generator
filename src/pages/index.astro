@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Field from "../components/Field.astro";
-console.log(Astro.request.url);
 ---
 
 <script>
@@ -12,68 +11,86 @@ console.log(Astro.request.url);
   const product_store_logo: HTMLInputElement | null = document.querySelector("#product_store_logo");
   const product_image: HTMLInputElement | null = document.querySelector("#product_image");
   const product_link: HTMLInputElement | null = document.querySelector("#product_link");
+  const button_code_generate: HTMLButtonElement | null = document.querySelector("#product_button");
+  const textarea_modal_code: HTMLTextAreaElement | null = document.querySelector("#textarea_modal_code");
+  const modal_code: HTMLDivElement | null = document.querySelector("#modal_code");
+  const button_close_modal_code: HTMLButtonElement | null = document.querySelector("#button_close_modal_code");
 
-  const example_product_name = document.querySelector("#example_product_name");
-  const example_product_price = document.querySelector("#example_product_price");
-  const example_product_tag = document.querySelector("#example_product_tag");
-  const example_product_image = document.querySelector("#example_product_image");
-  const example_product_store_logo = document.querySelector("#example_product_store_logo");
-  const example_product_link = document.querySelector("#example_product_link");
+  const example_product_name:HTMLHeadingElement | null = document.querySelector("#example_product_name");
+  const example_product_price:HTMLParagraphElement | null = document.querySelector("#example_product_price");
+  const example_product_tag:HTMLDivElement | null = document.querySelector("#example_product_tag");
+  const example_product_image:HTMLImageElement | null = document.querySelector("#example_product_image");
+  const example_product_store_logo:HTMLImageElement | null = document.querySelector("#example_product_store_logo");
+  const example_product_link:HTMLAnchorElement | null = document.querySelector("#example_product_link");
 
-  product_name?.addEventListener("input", (e) => {
+  product_name?.addEventListener("input", () => {
     if (!example_product_name) return;
     example_product_name.textContent = product_name.value ? product_name.value : "Nome do produto";
   });
 
-  product_price?.addEventListener("input", (e) => {
+  product_price?.addEventListener("input", () => {
     if (!example_product_price) return;
     example_product_price.textContent = product_price.value
       ? new Number(product_price.value).toLocaleString("pt-br", { style: "currency", currency: "BRL" })
       : "R$ 1000,00";
   });
 
-  product_hidden_price?.addEventListener("input", (e) => {
+  product_hidden_price?.addEventListener("input", () => {
     if (product_hidden_price.checked) {
+      if(!example_product_price) return;
       example_product_price.style.display = "none";
     } else {
+      if(!example_product_price) return;
       example_product_price.style.display = "block";
     }
   });
 
-  product_tag?.addEventListener("input", (e) => {
+  product_tag?.addEventListener("input", () => {
     if (!example_product_tag) return;
     example_product_tag.textContent = product_tag.value ? product_tag.value : "Etiqueta";
   });
 
-  product_image?.addEventListener("input", (e) => {
+  product_image?.addEventListener("input", () => {
     if (!example_product_image) return;
     example_product_image.src = product_image.value ? product_image.value : "https://placehold.co/200x200/edeef1/b4bac5/webp";
   });
 
-  product_store_logo?.addEventListener("input", (e) => {
+  product_store_logo?.addEventListener("input", () => {
     if (!example_product_store_logo) return;
     example_product_store_logo.src = product_store_logo.value
       ? product_store_logo.value
       : "https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50";
   });
 
-  product_link?.addEventListener("input", (e) => {
+  product_link?.addEventListener("input", () => {
     if (!example_product_link) return;
     example_product_link.href = product_link.value ? product_link.value : "#";
   });
 
-  const handleGetFields = () => {
+  const handleGenereteCode = () => {
     const form_generator: HTMLFormElement | null = document.querySelector("#form_generator");
     let data: FormData;
 
     if (!form_generator) return;
 
     data = new FormData(form_generator);
-    console.log(data.get("product_name"));
+    console.log(JSON.stringify(Object.fromEntries(data)));
+    console.log(encodeURI(JSON.stringify(Object.fromEntries(data))));
+    
+    if (!textarea_modal_code) return;
+    textarea_modal_code.textContent = `<iframe src="${location.origin}/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
+
+    if(!modal_code) return;
+    modal_code.classList.remove('invisible');
   };
 
-  const button_generate = document.querySelector("#product_button");
-  button_generate?.addEventListener("click", handleGetFields);
+  const handleCloseCodeMocal = () => {
+    if(!modal_code) return;
+    modal_code.classList.add('invisible');
+  }
+
+  button_code_generate?.addEventListener("click", handleGenereteCode);
+  button_close_modal_code?.addEventListener('click', handleCloseCodeMocal);
 </script>
 
 <Layout title="Welcome to Astro.">
@@ -92,7 +109,7 @@ console.log(Astro.request.url);
           </div>
           <div class="flex flex-1 flex-col gap-4 items-start justify-center">
             <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">Etiqueta</div>
-            <h3 class="text-2xl" id="example_product_name">Nome do produto</h3>
+            <h2 class="text-2xl" id="example_product_name">Nome do produto</h2>
             <div>
               <img
                 src="https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50"
@@ -114,7 +131,7 @@ console.log(Astro.request.url);
           </div>
         </div>
         <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
-          Develope by: LTCODE | Crie seu proprio clique aqui
+          Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:text-amber-500">LTCODE</a> | Gostaria de ter um product viewer em seu site? <a href="#" target="_blank" class="hover:text-amber-500">Clique aqui</a>.
         </div>
       </div>
     </div>
@@ -131,6 +148,17 @@ console.log(Astro.request.url);
         <Field name="product_link" label="Link do produto:" type="text" containerClass="basis-full" />
         <Field name="product_button" label="Gerar código" type="submit" containerClass="basis-full mt-5" />
       </form>
+      <div class="fixed w-full h-full top-0 left-0 z-50 bg-woodsmoke-950 bg-opacity-50 flex justify-center items-center shadow-lg invisible" id="modal_code">
+        <div class="absolute w-full max-w-3xl h-full max-h-[568px] bg-woodsmoke-50 rounded-[20px]">
+          <div class="w-full bg-woodsmoke-200 rounded-t-[20px] p-4 border-b border-woodsmoke-300 flex justify-between mb-5">
+            <div>Código</div>
+            <button id="button_close_modal_code">X</button>
+          </div>
+          <div class="p-5">
+            <textarea id="textarea_modal_code" class="w-full rounded-[20px] p-5 shadow-lg resize-none bg-white text-woodsmoke-600" rows="10" disabled>Código</textarea>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </Layout>
