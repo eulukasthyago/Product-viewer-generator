@@ -1,0 +1,8 @@
+---
+const getProduct = Astro.url.searchParams.get('product')! || '';
+const product = JSON.parse(decodeURI(getProduct));
+---
+
+<div>
+    {product}
+</div>

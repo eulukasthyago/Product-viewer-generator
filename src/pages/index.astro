@@ -4,16 +4,58 @@ import Field from "../components/Field.astro";
 ---
 
 <script>
+  const product_name:HTMLInputElement | null = document.querySelector("#product_name");
+  const product_price:HTMLInputElement | null = document.querySelector("#product_price");
+  const product_hidden_price:HTMLInputElement | null = document.querySelector("#product_hidden_price");
+  const product_tag:HTMLInputElement | null = document.querySelector("#product_tag");
+  const product_store_logo:HTMLInputElement | null = document.querySelector("#product_store_logo");
+  const product_image:HTMLInputElement | null = document.querySelector("#product_image");
+  const product_link:HTMLInputElement | null = document.querySelector("#product_link");
+
+
   const example_product_name = document.querySelector("#example_product_name");
   const example_product_price = document.querySelector("#example_product_price");
   const example_product_tag = document.querySelector("#example_product_tag");
-  const example_product_tag = document.querySelector("#example_product_tag");
-  const product_name:HTMLInputElement | null = document.querySelector("#product_name");
+  const example_product_image = document.querySelector("#example_product_image");
+  const example_product_store_logo = document.querySelector("#example_product_store_logo");
+  const example_product_link = document.querySelector("#example_product_link");
   
 	product_name?.addEventListener("input", (e) => {
     if (!example_product_name) return;
     example_product_name.textContent = product_name.value ? product_name.value : 'Nome do produto';
-    console.log(product_name.value);
+  });
+
+  product_price?.addEventListener("input", (e) => {
+    if (!example_product_price) return;
+    example_product_price.textContent = product_price.value ? new Number(product_price.value).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) : 'R$ 1000,00';
+  });
+
+  product_hidden_price?.addEventListener("input", (e) => {
+    if(product_hidden_price.checked){
+      example_product_price.style.display = 'none';
+    }else{
+      example_product_price.style.display = 'block';
+    }
+  });
+
+  product_tag?.addEventListener("input", (e) => {
+    if (!example_product_tag) return;
+    example_product_tag.textContent = product_tag.value ? product_tag.value : 'Etiqueta';
+  });
+
+  product_image?.addEventListener("input", (e) => {
+    if (!example_product_image) return;
+    example_product_image.src = product_image.value ? product_image.value : 'https://placehold.co/200x200/edeef1/b4bac5/webp';
+  });
+
+  product_store_logo?.addEventListener("input", (e) => {
+    if (!example_product_store_logo) return;
+    example_product_store_logo.src = product_store_logo.value ? product_store_logo.value : 'https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50';
+  });
+
+  product_link?.addEventListener("input", (e) => {
+    if (!example_product_link) return;
+    example_product_link.href = product_link.value ? product_link.value : '#';
   });
 
   const handleGetFields = () => {
@@ -38,7 +80,7 @@ import Field from "../components/Field.astro";
         <Field name="product_name" label="Nome do produto:" type="text" containerClass="basis-full" />
         <div>
           <Field name="product_price" label="Preço do prodito:" type="number" />
-          <Field name="product_hidden-price" label="Ocultar preço:" type="checkbox" />
+          <Field name="product_hidden_price" label="Ocultar preço:" type="checkbox" />
         </div>
         <Field name="product_tag" label="Etiqueta:" />
         <Field name="product_store_logo" label="URL Logo da loja:" />
@@ -52,21 +94,20 @@ import Field from "../components/Field.astro";
       <h2 class="text-center text-2xl uppercase mb-14 text-woodsmoke-50">Exemplo</h2>
       <div class="p-8 bg-white w-full max-w-5xl">
         <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
-          <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden">
-            <img src="https://placehold.co/200x200/edeef1/b4bac5/webp" alt="" />
+          <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
+            <img src="https://placehold.co/200x200/edeef1/b4bac5/webp" alt="" id="example_product_image" class="w-full h-full rounded-[15px]"/>
           </div>
           <div class="flex flex-1 flex-col gap-4 items-start justify-center">
             <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">Etiqueta</div>
             <h3 class="text-2xl" id="example_product_name">Nome do produto</h3>
             <div>
-              <img src="https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50" alt="" />
+              <img src="https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50" alt="" id="example_product_store_logo" class="max-h-[50px]" />
             </div>
           </div>
           <div class="flex flex-col items-center">
             <p class="text-center mb-5 text-2xl" id="example_product_price">R$ 1000,00</p>
-            <a href="#" class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl"
-              >Ir para loja</a
-            >
+            <a href="#" target="_blank" id="example_product_link" class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl"
+              >Ir para loja</a>
           </div>
         </div>
         <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
