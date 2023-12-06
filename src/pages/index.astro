@@ -16,12 +16,12 @@ import Field from "../components/Field.astro";
   const modal_code: HTMLDivElement | null = document.querySelector("#modal_code");
   const button_close_modal_code: HTMLButtonElement | null = document.querySelector("#button_close_modal_code");
 
-  const example_product_name:HTMLHeadingElement | null = document.querySelector("#example_product_name");
-  const example_product_price:HTMLParagraphElement | null = document.querySelector("#example_product_price");
-  const example_product_tag:HTMLDivElement | null = document.querySelector("#example_product_tag");
-  const example_product_image:HTMLImageElement | null = document.querySelector("#example_product_image");
-  const example_product_store_logo:HTMLImageElement | null = document.querySelector("#example_product_store_logo");
-  const example_product_link:HTMLAnchorElement | null = document.querySelector("#example_product_link");
+  const example_product_name: HTMLHeadingElement | null = document.querySelector("#example_product_name");
+  const example_product_price: HTMLParagraphElement | null = document.querySelector("#example_product_price");
+  const example_product_tag: HTMLDivElement | null = document.querySelector("#example_product_tag");
+  const example_product_image: HTMLImageElement | null = document.querySelector("#example_product_image");
+  const example_product_store_logo: HTMLImageElement | null = document.querySelector("#example_product_store_logo");
+  const example_product_link: HTMLAnchorElement | null = document.querySelector("#example_product_link");
 
   product_name?.addEventListener("input", () => {
     if (!example_product_name) return;
@@ -37,10 +37,10 @@ import Field from "../components/Field.astro";
 
   product_hidden_price?.addEventListener("input", () => {
     if (product_hidden_price.checked) {
-      if(!example_product_price) return;
+      if (!example_product_price) return;
       example_product_price.style.display = "none";
     } else {
-      if(!example_product_price) return;
+      if (!example_product_price) return;
       example_product_price.style.display = "block";
     }
   });
@@ -76,26 +76,32 @@ import Field from "../components/Field.astro";
     data = new FormData(form_generator);
     console.log(JSON.stringify(Object.fromEntries(data)));
     console.log(encodeURI(JSON.stringify(Object.fromEntries(data))));
-    
-    if (!textarea_modal_code) return;
-    textarea_modal_code.textContent = `<iframe width="100%" height="288" scrolling="no" frameBorder="0" src="${location.origin}/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
 
-    if(!modal_code) return;
-    modal_code.classList.remove('invisible');
+    if (!textarea_modal_code) return;
+    textarea_modal_code.textContent = `<iframe width="100%" height="288" scrolling="no" frameBorder="0" src="${
+      location.origin
+    }/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
+
+    if (!modal_code) return;
+    modal_code.classList.remove("invisible");
   };
 
   const handleCloseCodeMocal = () => {
-    if(!modal_code) return;
-    modal_code.classList.add('invisible');
-  }
+    if (!modal_code) return;
+    modal_code.classList.add("invisible");
+  };
 
   button_code_generate?.addEventListener("click", handleGenereteCode);
-  button_close_modal_code?.addEventListener('click', handleCloseCodeMocal);
+  button_close_modal_code?.addEventListener("click", handleCloseCodeMocal);
 </script>
 
 <Layout title="Welcome to Astro.">
   <main class="w-full flex flex-col justify-center items-center p-5">
-    <h1 class="text-center text-2xl uppercase mb-14 text-woodsmoke-50">Product viewer generator</h1>
+    <div class="pt-4">
+      <h1 class="text-center text-2xl uppercase mb-14 text-woodsmoke-50">
+        <img src="/logo_white.svg" width="500" alt="Logo Product Viewer" />
+      </h1>
+    </div>
     <div class="w-full flex flex-col items-center mb-14">
       <div class="p-8 bg-white w-full max-w-5xl">
         <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
@@ -131,7 +137,8 @@ import Field from "../components/Field.astro";
           </div>
         </div>
         <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
-          Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:text-amber-500">LTCODE</a> | Gostaria de ter um product viewer em seu site? <a href="#" target="_blank" class="hover:text-amber-500">Clique aqui</a>.
+          Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:selective-yellow-400">LTCODE</a> | Gostaria de ter um
+          product viewer em seu site? <a href="#" target="_blank" class="hover:selective-yellow-400">Clique aqui</a>.
         </div>
       </div>
     </div>
@@ -148,14 +155,22 @@ import Field from "../components/Field.astro";
         <Field name="product_link" label="Link do produto:" type="text" containerClass="basis-full" />
         <Field name="product_button" label="Gerar código" type="submit" containerClass="basis-full mt-5" />
       </form>
-      <div class="fixed w-full h-full top-0 left-0 z-50 bg-woodsmoke-950 bg-opacity-50 flex justify-center items-center shadow-lg invisible" id="modal_code">
+      <div
+        class="fixed w-full h-full top-0 left-0 z-50 bg-woodsmoke-950 bg-opacity-50 flex justify-center items-center shadow-lg invisible"
+        id="modal_code"
+      >
         <div class="absolute w-full max-w-3xl h-full max-h-[568px] bg-woodsmoke-50 rounded-[20px]">
           <div class="w-full bg-woodsmoke-200 rounded-t-[20px] p-4 border-b border-woodsmoke-300 flex justify-between mb-5">
             <div>Código</div>
             <button id="button_close_modal_code">X</button>
           </div>
           <div class="p-5">
-            <textarea id="textarea_modal_code" class="w-full rounded-[20px] p-5 shadow-lg resize-none bg-white text-woodsmoke-600" rows="10" disabled>Código</textarea>
+            <textarea
+              id="textarea_modal_code"
+              class="w-full rounded-[20px] p-5 shadow-lg resize-none bg-white text-woodsmoke-600"
+              rows="10"
+              disabled>Código</textarea
+            >
           </div>
         </div>
       </div>
