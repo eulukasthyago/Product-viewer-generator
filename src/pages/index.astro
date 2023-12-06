@@ -78,7 +78,7 @@ import Field from "../components/Field.astro";
     console.log(encodeURI(JSON.stringify(Object.fromEntries(data))));
     
     if (!textarea_modal_code) return;
-    textarea_modal_code.textContent = `<iframe src="${location.origin}/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
+    textarea_modal_code.textContent = `<iframe width="100%" height="288" scrolling="no" frameBorder="0" src="${location.origin}/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
 
     if(!modal_code) return;
     modal_code.classList.remove('invisible');

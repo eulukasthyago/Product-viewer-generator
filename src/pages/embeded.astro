@@ -20,7 +20,7 @@ const product:Product = JSON.parse(getProduct);
       <img src={product.product_image} alt={product.product_name} id="example_product_image" class="w-full h-full rounded-[15px]" />
     </div>
     <div class="flex flex-1 flex-col gap-4 items-start justify-center">
-      <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">Etiqueta</div>
+      <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">{product.product_tag}</div>
       <h2 class="text-2xl" id="example_product_name">{product.product_name}</h2>
       <div>
         <img
