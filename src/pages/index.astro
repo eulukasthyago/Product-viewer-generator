@@ -77,10 +77,26 @@ import Field from "../components/Field.astro";
     console.log(JSON.stringify(Object.fromEntries(data)));
     console.log(encodeURI(JSON.stringify(Object.fromEntries(data))));
 
+    const productViewer = document.querySelector("#ltcode-product-viewer").cloneNode(true);
+
+    const allElementProdictViewer = productViewer.querySelectorAll("*");
+    allElementProdictViewer.forEach(el => {
+      const elStyles = window.getComputedStyle(el);
+      let elCssText = elStyles.cssText;
+
+      console.log('elStyles: ', elStyles)
+
+      if(!elCssText){
+        elCssText = Array.from(elStyles).reduce((str, property) => {
+          return `${str}${property}:${elStyles.getPropertyValue(property)}`;
+        }, '');
+        console.log("style:", elCssText)}
+
+      el.style.cssText = elCssText;
+    })
+
     if (!textarea_modal_code) return;
-    textarea_modal_code.textContent = `<iframe width="100%" height="288" scrolling="no" frameBorder="0" src="${
-      location.origin
-    }/embeded/?product=${encodeURI(JSON.stringify(Object.fromEntries(data)))}"></iframe>`;
+    textarea_modal_code.textContent = productViewer.firstElementChild.getInnerHTML();
 
     if (!modal_code) return;
     modal_code.classList.remove("invisible");
@@ -95,15 +111,15 @@ import Field from "../components/Field.astro";
   button_close_modal_code?.addEventListener("click", handleCloseCodeMocal);
 </script>
 
-<Layout title="Welcome to Astro.">
+<Layout title="Product Viewer">
   <main class="w-full flex flex-col justify-center items-center p-5">
     <div class="pt-4">
       <h1 class="text-center text-2xl uppercase mb-14 text-woodsmoke-50">
         <img src="/logo_white.svg" width="500" alt="Logo Product Viewer" />
       </h1>
     </div>
-    <div class="w-full flex flex-col items-center mb-14">
-      <div class="p-8 bg-white w-full max-w-5xl">
+    <div class="w-full flex flex-col items-center mb-14" id="ltcode-product-viewer">
+      <div class="p-8 bg-white w-fuWelcome to Astro.ll max-w-5xl">
         <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
           <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
             <img
@@ -145,12 +161,16 @@ import Field from "../components/Field.astro";
     <div class="mb-14">
       <form class="flex flex-wrap max-w-3xl gap-4" id="form_generator">
         <Field name="product_name" label="Nome do produto:" type="text" containerClass="basis-full" />
-        <div>
+        <div class="flex-1 max-w-[calc((100%_/_3)_-_(16px*2)_/_3)]">
           <Field name="product_price" label="Preço do prodito:" type="number" />
           <Field name="product_hidden_price" label="Ocultar preço:" type="checkbox" />
         </div>
-        <Field name="product_tag" label="Etiqueta:" />
-        <Field name="product_store_logo" label="URL Logo da loja:" />
+        <div class="flex-1 max-w-[calc((100%_/_3)_-_(16px*2)_/_3)]">
+          <Field name="product_tag" label="Etiqueta:" />
+        </div>
+        <div class="flex-1 max-w-[calc((100%_/_3)_-_(16px*2)_/_3)]">
+          <Field name="product_store_logo" label="URL Logo da loja:" />
+        </div>
         <Field name="product_image" label="URL da image do prodito:" type="text" containerClass="basis-full" />
         <Field name="product_link" label="Link do produto:" type="text" containerClass="basis-full" />
         <Field name="product_button" label="Gerar código" type="submit" containerClass="basis-full mt-5" />
