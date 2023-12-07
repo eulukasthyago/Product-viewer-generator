@@ -11,9 +11,13 @@ interface Product {
 }
 
 const getProduct = Astro.url.searchParams.get("product")! || '{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}';
-const product:Product = JSON.parse(getProduct);
+const product:Product = JSON.parse('{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}');
+// const product:Product = JSON.parse(getProduct);
 ---
 <Layout title={product.product_name}>
+  <div>
+    {getProduct}
+  </div>
 <div class="p-3 bg-white w-full">
   <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
     <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
