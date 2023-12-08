@@ -77,26 +77,26 @@ import Field from "../components/Field.astro";
     console.log(JSON.stringify(Object.fromEntries(data)));
     console.log(encodeURI(JSON.stringify(Object.fromEntries(data))));
 
-    const productViewer = document.querySelector("#ltcode-product-viewer").cloneNode(true);
-
-    const allElementProdictViewer = productViewer.querySelectorAll("*");
-    allElementProdictViewer.forEach(el => {
+    const productViewer = document.querySelector("#ltcode-product-viewer");
+    if (!productViewer) return;
+    const allElementProdictViewer = productViewer.querySelectorAll<HTMLElement>("*");
+    allElementProdictViewer.forEach((el) => {
       const elStyles = window.getComputedStyle(el);
       let elCssText = elStyles.cssText;
 
-      console.log('elStyles: ', elStyles)
-
-      if(!elCssText){
+      if (!elCssText) {
         elCssText = Array.from(elStyles).reduce((str, property) => {
-          return `${str}${property}:${elStyles.getPropertyValue(property)}`;
-        }, '');
-        console.log("style:", elCssText)}
+          return `${str}${property}:${elStyles.getPropertyValue(property)};`;
+        }, "");
+      }
 
-      el.style.cssText = elCssText;
-    })
+      console.log("Element:", el, "style:", elCssText);
+      el.style.cssText = `${elCssText}`;
+    });
 
     if (!textarea_modal_code) return;
-    textarea_modal_code.textContent = productViewer.firstElementChild.getInnerHTML();
+    if (!productViewer.firstElementChild) return;
+    textarea_modal_code.textContent = productViewer.innerHTML;
 
     if (!modal_code) return;
     modal_code.classList.remove("invisible");
@@ -119,7 +119,7 @@ import Field from "../components/Field.astro";
       </h1>
     </div>
     <div class="w-full flex flex-col items-center mb-14" id="ltcode-product-viewer">
-      <div class="p-8 bg-white w-fuWelcome to Astro.ll max-w-5xl">
+      <div class="p-8 bg-white w-full max-w-5xl">
         <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
           <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
             <img
@@ -153,8 +153,8 @@ import Field from "../components/Field.astro";
           </div>
         </div>
         <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
-          Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:selective-yellow-400">LTCODE</a> | Gostaria de ter um
-          product viewer em seu site? <a href="#" target="_blank" class="hover:selective-yellow-400">Clique aqui</a>.
+          Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:selective-yellow-400">LTCODE</a> | Gostaria de ter
+          um product viewer em seu site? <a href="#" target="_blank" class="hover:selective-yellow-400">Clique aqui</a>.
         </div>
       </div>
     </div>

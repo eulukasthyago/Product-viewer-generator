@@ -1,54 +1,59 @@
 ---
-import Layout from "../layouts/Layout.astro"
+import Layout from "../layouts/Layout.astro";
 interface Product {
-  product_name: string
-  product_price: string
-  product_hidden_price: string
-  product_tag: string
-  product_store_logo: string
-  product_image: string
-  product_link: string
+  product_name: string;
+  product_price: string;
+  product_hidden_price: string;
+  product_tag: string;
+  product_store_logo: string;
+  product_image: string;
+  product_link: string;
 }
 
-const getProduct = Astro.url.searchParams.get("product")! || '{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}';
-const product:Product = JSON.parse('{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}');
+const getProduct =
+  Astro.url.searchParams.get("product")! ||
+  '{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}';
+const product: Product = JSON.parse(
+  '{"product_name":"Nome do produto","product_price":"1000.00","product_tag":"Etiqueta","product_store_logo":"https://placehold.co/150x50/edeef1/b4bac5/webp?text=Logo+da+loja+150+x+50","product_image":"https://placehold.co/200x200/edeef1/b4bac5/webp","product_link":"#"}'
+);
 // const product:Product = JSON.parse(getProduct);
 ---
+
 <Layout title={product.product_name}>
   <div>
     {getProduct}
   </div>
-<div class="p-3 bg-white w-full">
-  <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
-    <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
-      <img src={product.product_image} alt={product.product_name} id="example_product_image" class="w-full h-full rounded-[15px]" />
-    </div>
-    <div class="flex flex-1 flex-col gap-4 items-start justify-center">
-      <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">{product.product_tag}</div>
-      <h2 class="text-2xl" id="example_product_name">{product.product_name}</h2>
-      <div>
-        <img
-          src={product.product_store_logo}
-          alt="Logo da loja"
-          id="example_product_store_logo"
-          class="max-h-[50px]"
-        />
+  <div class="p-3 bg-white w-full">
+    <div class="p-5 border bg-woodsmoke-50 shadow-lg border-woodsmoke-200 rounded-[20px] flex items-center gap-4 relative z-10">
+      <div class="w-[200px] h-[200px] border border-woodsmoke-200 rounded-[20px] overflow-hidden p-2.5 bg-white">
+        <img src={product.product_image} alt={product.product_name} id="example_product_image" class="w-full h-full rounded-[15px]" />
+      </div>
+      <div class="flex flex-1 flex-col gap-4 items-start justify-center">
+        <div class="bg-green-200 text-green-700 px-5 py-2 rounded-[10px]" id="example_product_tag">{product.product_tag}</div>
+        <h2 class="text-2xl" id="example_product_name">{product.product_name}</h2>
+        <div>
+          <img src={product.product_store_logo} alt="Logo da loja" id="example_product_store_logo" class="max-h-[50px]" />
+        </div>
+      </div>
+      <div class="flex flex-col items-center">
+        {
+          !product.product_hidden_price && (
+            <p class="text-center mb-5 text-2xl" id="example_product_price">
+              {new Number(product.product_price).toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+            </p>
+          )
+        }
+        <a
+          href={product.product_link}
+          target="_blank"
+          id="example_product_link"
+          class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl">Ir para loja</a
+        >
       </div>
     </div>
-    <div class="flex flex-col items-center">
-      {!product.product_hidden_price && (
-        <p class="text-center mb-5 text-2xl" id="example_product_price">{new Number(product.product_price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) }</p>
-      )}
-      <a
-        href={product.product_link}
-        target="_blank"
-        id="example_product_link"
-        class="px-10 py-2 rounded-[10px] bg-green-600 hover:bg-green-700 active:bg-green-800 text-woodsmoke-50 text-xl">Ir para loja</a
-      >
+    <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
+      Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:text-amber-500">LTCODE</a> | Gostaria de ter um product
+      viewer em seu site? <a href="#" target="_blank" class="hover:text-amber-500">Clique aqui</a>.
     </div>
   </div>
-  <div class="px-5 pt-8 pb-1 rounded-b-[20px] -mt-7 bg-woodsmoke-50 text-woodsmoke-300 text-[9px] relative z-0">
-    Develope by: <a href="https://lucastiago.com.br" target="_blank" class="hover:text-amber-500">LTCODE</a> | Gostaria de ter um product viewer em seu site? <a href="#" target="_blank" class="hover:text-amber-500">Clique aqui</a>.
-  </div>
-</div>
 </Layout>
